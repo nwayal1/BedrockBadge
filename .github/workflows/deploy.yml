@@ -25,4 +25,4 @@ jobs:
       run: sfdx auth:sfdxurl:store --sfdx-url-file auth-url.txt --alias DeployOrg
 
     - name: Deploy Metadata
-      run: sfdx project deploy start --source-dir . --target-org DeployOrg
+      run: sfdx project deploy start --source-dir BEDROCKBADGEPROJECT --target-org DeployOrg

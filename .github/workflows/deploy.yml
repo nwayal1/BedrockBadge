@@ -1,0 +1,28 @@
+name: Deploy to Salesforce
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Salesforce CLI
+      uses: sfdx-actions/setup-sfdx@v1
+      with:
+        version: latest
+
+    - name: Create Auth File
+      run: echo "${{ secrets.BADGE_SFDX }}" > auth-url.txt
+
+    - name: Authenticate with Salesforce Org
+      run: sfdx auth:sfdxurl:store --sfdx-url-file auth-url.txt --alias DeployOrg
+
+    - name: Deploy Metadata
+      run: sfdx project deploy start --source-dir force-app --target-org DeployOrg
